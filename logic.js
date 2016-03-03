@@ -8,7 +8,7 @@ if (!Array.isArray) {
 	};
 }
 
-global.jsonLogic = function(tests, data){
+function jsonLogic(tests, data){
 	//You've recursed to a primitive, stop!
 	if(tests === null || typeof tests !== "object" || Array.isArray(tests) ){
 		return tests; 
@@ -71,7 +71,22 @@ global.jsonLogic = function(tests, data){
 			"-" : function(a,b){ if(b === undefined){return -a;}else{return a - b;} },
 			"/" : function(a,b){ if(b === undefined){return a;}else{return a / b;} },
 			"min" : function(){ return Math.min.apply(this,arguments); },
-			"max" : function(){ return Math.max.apply(this,arguments); }
+			"max" : function(){ return Math.max.apply(this,arguments); },
+			"indexOf" : function(a, b) { 
+				if (typeof a.indexOf === 'undefined') return false;
+
+				return a.indexOf(b);
+		  	},
+			"startsWith" : function(a, b) {
+				if (typeof a.indexOf === 'undefined') return false;
+
+				return a.startsWith(b);
+			},  
+			"endsWith" : function(a, b) {
+				if (typeof a.indexOf === 'undefined') return false;
+
+				return a.endsWith(b);
+			}
 		};
 
 	if(undefined === operations[op]){
@@ -86,6 +101,9 @@ global.jsonLogic = function(tests, data){
 
 	return operations[op].apply({}, values);
 };
+
+global.jsonLogic = jsonLogic;
+module.exports = jsonLogic;
 
 }(this));
 
